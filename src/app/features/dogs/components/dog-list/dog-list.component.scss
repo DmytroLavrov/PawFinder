@@ -1,0 +1,74 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.dog-list-container {
+  padding: $spacing-xl 0;
+}
+
+.list-header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+}
+
+.page-title {
+  font-size: $font-size-3xl;
+  font-weight: 800;
+  color: $text-primary;
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.page-subtitle {
+  font-size: $font-size-lg;
+  color: $text-secondary;
+  max-width: 600px;
+  margin: 0 auto;
+
+  @include mobile {
+    font-size: $font-size-base;
+  }
+}
+
+.dogs-grid {
+  @include grid-auto-fit(280px, $spacing-lg);
+
+  @include mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  @include tablet {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: $spacing-2xl;
+  color: $text-secondary;
+
+  p {
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.retry-btn {
+  @include button-reset;
+  background-color: $primary;
+  color: white;
+  padding: $spacing-md $spacing-xl;
+  border-radius: $radius-lg;
+  font-weight: 600;
+  transition: background-color $transition-base;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

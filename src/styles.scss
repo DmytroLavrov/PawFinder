@@ -11,6 +11,10 @@
   @include tablet {
     padding: 0 $spacing-xl;
   }
+
+  @include mobile {
+    padding: 0 $spacing-md;
+  }
 }
 
 .text-center {

@@ -14,14 +14,14 @@ export class DogService {
   public readonly http: HttpClient = inject(HttpClient);
 
   private readonly headers = new HttpHeaders({
-    'x-api-key': environment.dogApiKey,
+    'x-api-key': this.apiKey,
   });
 
   public getRandomDogs(limit: number = 10, hasBreeds: boolean = true): Observable<DogImage[]> {
     const params = new HttpParams({
       fromObject: {
         limit,
-        ...(hasBreeds && { hasBreeds: 1 }),
+        ...(hasBreeds && { has_breeds: 1 }),
       },
     });
 
