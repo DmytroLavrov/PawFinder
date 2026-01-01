@@ -1,3 +1,11 @@
+export interface DogImage {
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+  breeds?: Breed[]; // May be empty
+}
+
 export interface Breed {
   id: number;
   name: string;
