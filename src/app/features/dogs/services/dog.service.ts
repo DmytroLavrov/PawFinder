@@ -11,7 +11,7 @@ export class DogService {
   private readonly apiUrl: string = environment.dogApiUrl;
   private readonly apiKey: string = environment.dogApiKey;
 
-  public readonly http: HttpClient = inject(HttpClient);
+  private readonly http: HttpClient = inject(HttpClient);
 
   private readonly headers = new HttpHeaders({
     'x-api-key': this.apiKey,
@@ -52,6 +52,14 @@ export class DogService {
     return this.http
       .get<DogImage[]>(`${this.apiUrl}/images/search`, {
         params,
+        headers: this.headers,
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  public getDogById(imageId: string): Observable<DogImage> {
+    return this.http
+      .get<DogImage>(`${this.apiUrl}/images/${imageId}`, {
         headers: this.headers,
       })
       .pipe(catchError(this.handleError));
