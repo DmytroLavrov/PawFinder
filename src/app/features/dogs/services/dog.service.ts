@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import { Breed, DogImage } from '@shared/models/dog.model';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,34 +13,54 @@ export class DogService {
 
   public readonly http: HttpClient = inject(HttpClient);
 
-  public getRandomDogs(limit: number = 10): Observable<DogImage[]> {
-    const params = new HttpParams().set('limit', limit.toString()).set('has_breeds', '1');
+  private readonly headers = new HttpHeaders({
+    'x-api-key': environment.dogApiKey,
+  });
 
-    return this.http.get<DogImage[]>(`${this.apiUrl}/images/search`, {
-      params,
-      headers: this.getHeaders(),
+  public getRandomDogs(limit: number = 10, hasBreeds: boolean = true): Observable<DogImage[]> {
+    const params = new HttpParams({
+      fromObject: {
+        limit,
+        ...(hasBreeds && { hasBreeds: 1 }),
+      },
     });
+
+    return this.http
+      .get<DogImage[]>(`${this.apiUrl}/images/search`, {
+        params,
+        headers: this.headers,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   public getBreeds(): Observable<Breed[]> {
-    return this.http.get<Breed[]>(`${this.apiUrl}/breeds`, {
-      headers: this.getHeaders(),
-    });
+    return this.http
+      .get<Breed[]>(`${this.apiUrl}/breeds`, {
+        headers: this.headers,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   public searchByBreed(breedId: number, limit: number = 10): Observable<DogImage[]> {
-    const params = new HttpParams()
-      .set('limit', limit.toString())
-      .set('breed_ids', breedId.toString());
+    const params = new HttpParams({
+      fromObject: {
+        limit,
+        breed_ids: breedId,
+      },
+    });
 
-    return this.http.get<DogImage[]>(`${this.apiUrl}/images/search`, {
-      params,
-      headers: this.getHeaders(),
-    });
+    return this.http
+      .get<DogImage[]>(`${this.apiUrl}/images/search`, {
+        params,
+        headers: this.headers,
+      })
+      .pipe(catchError(this.handleError));
   }
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'x-api-key': this.apiKey,
-    });
+
+  private handleError(error: any): Observable<never> {
+    console.error('Dog API Error:', error);
+
+    const message = error.error?.message || 'Failed to load data from Dog API';
+    return throwError(() => new Error(message));
   }
 }
