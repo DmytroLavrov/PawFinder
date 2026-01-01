@@ -1,0 +1,26 @@
+<div class="breed-filter">
+  <label for="breed-select" class="filter-label"> Filter by Breed </label>
+
+  @if (isLoading) {
+    <div class="skeleton-select"></div>
+  } @else {
+    <div class="select-wrapper">
+      <select
+        id="breed-select"
+        class="breed-select"
+        [value]="selectedValue()"
+        (change)="onBreedChange($event)"
+      >
+        <option value="all">All Breeds {{ breeds.length }}</option>
+
+        @for (breed of breeds; track breed.id) {
+          <option [value]="breed.id" [selected]="selectedValue() === breed.id.toString()">
+            {{ breed.name }}
+          </option>
+        }
+      </select>
+
+      <span class="dropdown-icon">▼</span>
+    </div>
+  }
+</div>
