@@ -1,0 +1,161 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-xl 0;
+}
+
+.back-btn {
+  @include button-reset;
+  @include flex-center;
+  gap: $spacing-sm;
+  color: $primary;
+  font-weight: 600;
+  font-size: $font-size-base;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-xl;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: rgba($primary, 0.1);
+    gap: $spacing-md; // The arrow "moves away"
+  }
+
+  .arrow {
+    font-size: $font-size-xl;
+    transition: transform $transition-base;
+  }
+
+  &:hover .arrow {
+    transform: translateX(-4px);
+  }
+}
+
+.details-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-2xl;
+
+  @include tablet {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.image-section {
+  width: 100%;
+  position: relative;
+
+  .dog-image {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: $radius-xl;
+    box-shadow: $shadow-xl;
+  }
+}
+
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.breed-name {
+  font-size: $font-size-3xl;
+  font-weight: 800;
+  color: $text-primary;
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.info-card {
+  background-color: $bg-primary;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  border: 1px solid $border;
+}
+
+.info-label {
+  font-size: $font-size-sm;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-tertiary;
+  margin-bottom: $spacing-sm;
+}
+
+.info-value {
+  font-size: $font-size-lg;
+  color: $text-primary;
+  line-height: 1.6;
+}
+
+.info-secondary {
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  margin-top: $spacing-xs;
+}
+
+.measurements {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+}
+
+.measurement-card {
+  @extend .info-card;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+
+  @include tablet {
+    flex-direction: row;
+  }
+}
+
+.btn {
+  @include button-reset;
+  padding: $spacing-md $spacing-xl;
+  border-radius: $radius-lg;
+  font-weight: 600;
+  font-size: $font-size-base;
+  text-align: center;
+  transition: all $transition-base;
+  flex: 1;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.btn-primary {
+  background-color: $primary;
+  color: white;
+
+  &:hover {
+    background-color: $primary-dark;
+    box-shadow: $shadow-lg;
+  }
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: $primary;
+  border: 2px solid $primary;
+
+  &:hover {
+    background-color: rgba($primary, 0.1);
+  }
+}
