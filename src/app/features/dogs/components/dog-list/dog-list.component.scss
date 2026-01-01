@@ -32,6 +32,39 @@
   }
 }
 
+.filters-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-2xl;
+  padding: $spacing-lg;
+  background-color: $bg-primary;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-sm;
+}
+
+.empty-state {
+  text-align: center;
+  padding: $spacing-2xl;
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: $spacing-lg;
+    opacity: 0.5;
+  }
+
+  h3 {
+    font-size: $font-size-xl;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    font-size: $font-size-base;
+    color: $text-secondary;
+    margin-bottom: $spacing-lg;
+  }
+}
+
 .dogs-grid {
   @include grid-auto-fit(280px, $spacing-lg);
 
