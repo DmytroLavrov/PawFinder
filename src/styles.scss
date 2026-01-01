@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+@use 'styles/reset' as *;
+
+.container {
+  width: 100%;
+  max-width: $wide;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+
+  @include tablet {
+    padding: 0 $spacing-xl;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 {
+  margin-top: $spacing-sm;
+}
+.mt-2 {
+  margin-top: $spacing-md;
+}
+.mt-3 {
+  margin-top: $spacing-lg;
+}
+.mt-4 {
+  margin-top: $spacing-xl;
+}
+
+.mb-1 {
+  margin-bottom: $spacing-sm;
+}
+.mb-2 {
+  margin-bottom: $spacing-md;
+}
+.mb-3 {
+  margin-bottom: $spacing-lg;
+}
+.mb-4 {
+  margin-bottom: $spacing-xl;
+}
