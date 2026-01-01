@@ -15,6 +15,14 @@ export const routes: Routes = [
     title: 'Browse Dogs',
   },
   {
+    path: 'dogs/:id',
+    loadComponent: () =>
+      import('./features/dogs/components/dog-details/dog-details.component').then(
+        (m) => m.DogDetailsComponent,
+      ),
+    title: 'Dog Details',
+  },
+  {
     path: '**',
     redirectTo: 'dogs',
   },
