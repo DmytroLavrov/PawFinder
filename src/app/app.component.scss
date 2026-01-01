@@ -1,0 +1,30 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1; // Takes up all available space
+  padding: $spacing-xl 0;
+
+  @include tablet {
+    padding: $spacing-2xl 0;
+  }
+}
+
+.footer {
+  background-color: $dark-bg-secondary;
+  color: $dark-text-primary;
+  padding: $spacing-lg 0;
+  margin-top: auto; // Pressed to the bottom
+
+  p {
+    text-align: center;
+    font-size: $font-size-sm;
+    color: $text-tertiary;
+  }
+}

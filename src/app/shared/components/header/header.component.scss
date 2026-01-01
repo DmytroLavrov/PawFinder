@@ -1,0 +1,52 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.header {
+  background-color: $bg-primary;
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav {
+  @include flex-between;
+  padding: $spacing-md 0;
+}
+
+.logo {
+  font-size: $font-size-xl;
+  font-weight: 700;
+  color: $primary;
+  transition: color $transition-base;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-dark;
+  }
+}
+
+.nav-links {
+  display: flex;
+  gap: $spacing-lg;
+  list-style: none;
+}
+
+.nav-link {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  color: $text-secondary;
+  font-weight: 500;
+  transition: all $transition-base;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary;
+    background-color: rgba($primary, 0.1);
+  }
+
+  &.active {
+    color: $primary;
+    background-color: rgba($primary, 0.1);
+  }
+}
