@@ -12,6 +12,11 @@
 .nav {
   @include flex-between;
   padding: $spacing-md 0;
+
+  @include mobile {
+    flex-direction: column;
+    row-gap: $spacing-md;
+  }
 }
 
 .logo {

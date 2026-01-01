@@ -1,0 +1,31 @@
+<article class="dog-card">
+  <a [routerLink]="['/dogs', dog.id]" class="card-link">
+    <div class="card-image">
+      <img [src]="dog.url" [alt]="breedName" loading="lazy" />
+    </div>
+
+    <div class="card-content">
+      <h3 class="card-title">{{ breedName }}</h3>
+
+      <p class="card-temperament">
+        {{ temperament }}
+      </p>
+
+      @if (lifeSpan) {
+        <p class="card-info">
+          <span class="icon">🕐</span>
+          {{ lifeSpan }}
+        </p>
+      }
+    </div>
+  </a>
+
+  <button
+    class="favorite-btn"
+    (click)="onFavoriteClick($event)"
+    type="button"
+    aria-label="Add to favorites"
+  >
+    <span class="heart-icon">♥</span>
+  </button>
+</article>

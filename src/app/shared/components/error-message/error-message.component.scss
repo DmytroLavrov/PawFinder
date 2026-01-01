@@ -1,0 +1,40 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.error-container {
+  @include flex-center;
+  @include flex-column;
+  padding: $spacing-2xl;
+  gap: $spacing-md;
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 4rem;
+}
+
+.error-title {
+  font-size: $font-size-xl;
+  color: $error;
+  font-weight: 700;
+}
+
+.error-message {
+  color: $text-secondary;
+  max-width: 400px;
+}
+
+.retry-btn {
+  @include button-reset;
+  background-color: $primary;
+  color: white;
+  padding: $spacing-md $spacing-xl;
+  border-radius: $radius-lg;
+  font-weight: 600;
+  margin-top: $spacing-md;
+  transition: background-color $transition-base;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+}

@@ -1,0 +1,25 @@
+<div class="dog-list-container">
+  <header class="list-header">
+    <h1 class="page-title">Find Your Perfect Companion</h1>
+    <p class="page-subtitle">
+      Browse through our collection of adorable dogs looking for a loving home
+    </p>
+  </header>
+
+  @if (isLoading()) {
+    <app-loader />
+  } @else if (error()) {
+    <app-error-message [message]="error()!" />
+  } @else if (dogs().length > 0) {
+    <div class="dogs-grid">
+      @for (dog of dogs(); track dog.id) {
+        <app-dog-card [dog]="dog" (favoriteClick)="onFavoriteClick($event)" />
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <p>No dogs found. Please try again.</p>
+      <button class="retry-btn" (click)="onRetry()">Reload</button>
+    </div>
+  }
+</div>
