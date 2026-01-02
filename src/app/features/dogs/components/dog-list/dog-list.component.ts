@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { DogService } from '@features/dogs/services/dog.service';
 import { Breed, DogImage } from '@shared/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
@@ -35,6 +43,8 @@ export class DogListComponent {
   public itemsPerPage: WritableSignal<number> = signal<number>(this.PAGE_SIZE);
   public isLoadingMore: WritableSignal<boolean> = signal<boolean>(false);
   public hasMoreData: WritableSignal<boolean> = signal<boolean>(true); // Is there any more data to download?
+
+  @ViewChild('loadMoreSection') loadMoreSection?: ElementRef<HTMLElement>;
 
   constructor() {
     this.loadBreeds();
@@ -116,12 +126,22 @@ export class DogListComponent {
         if (data.length < this.itemsPerPage()) {
           this.hasMoreData.set(false);
         }
+
+        this.scrollToNewContent();
       },
       error: (err) => {
         console.error('Error loading more dogs:', err);
         this.isLoadingMore.set(false);
       },
     });
+  }
+
+  private scrollToNewContent(): void {
+    setTimeout(() => {
+      if (this.loadMoreSection) {
+        this.loadMoreSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   }
 
   public onBreedChange(breedId: number | null): void {
