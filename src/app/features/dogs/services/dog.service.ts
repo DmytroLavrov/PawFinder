@@ -17,10 +17,15 @@ export class DogService {
     'x-api-key': this.apiKey,
   });
 
-  public getRandomDogs(limit: number = 10, hasBreeds: boolean = true): Observable<DogImage[]> {
+  public getRandomDogs(
+    limit: number = 10,
+    page: number = 0,
+    hasBreeds: boolean = true,
+  ): Observable<DogImage[]> {
     const params = new HttpParams({
       fromObject: {
         limit,
+        page,
         ...(hasBreeds && { has_breeds: 1 }),
       },
     });
@@ -41,10 +46,15 @@ export class DogService {
       .pipe(catchError(this.handleError));
   }
 
-  public searchByBreed(breedId: number, limit: number = 10): Observable<DogImage[]> {
+  public searchByBreed(
+    breedId: number,
+    limit: number = 10,
+    page: number = 0,
+  ): Observable<DogImage[]> {
     const params = new HttpParams({
       fromObject: {
         limit,
+        page,
         breed_ids: breedId,
       },
     });
