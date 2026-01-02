@@ -17,10 +17,8 @@
 
   @if (isLoadingDogs()) {
     <app-loader />
-
   } @else if (dogsError()) {
     <app-error-message [message]="dogsError()!" (retry)="onRetry()" />
-
   } @else if (dogs().length > 0) {
     <div class="dogs-grid">
       @for (dog of dogs(); track dog.id) {
@@ -28,6 +26,18 @@
       }
     </div>
 
+    <div class="load-more-section" #loadMoreSection>
+      @if (isLoadingMore()) {
+        <div class="loading-more">
+          <div class="spinner-small"></div>
+          <span>Loading more dogs...</span>
+        </div>
+      } @else if (hasMoreData()) {
+        <button class="load-more-btn" (click)="onLoadMore()">Load More Dogs</button>
+      } @else {
+        <p class="end-message">🐾 You've seen all available dogs! Check back later for more.</p>
+      }
+    </div>
   } @else {
     <div class="empty-state">
       <div class="empty-icon">🐕</div>

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild,
+  WritableSignal,
+} from '@angular/core';
 import { DogService } from '@features/dogs/services/dog.service';
 import { Breed, DogImage } from '@shared/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
@@ -19,6 +27,8 @@ export class DogListComponent {
   private route: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
 
+  private readonly PAGE_SIZE = 21;
+
   public dogs: WritableSignal<DogImage[]> = signal<DogImage[]>([]);
   public isLoadingDogs: WritableSignal<boolean> = signal<boolean>(true);
   public dogsError: WritableSignal<string | null> = signal<string | null>(null);
@@ -28,6 +38,13 @@ export class DogListComponent {
   public breedsError: WritableSignal<string | null> = signal<string | null>(null);
 
   public selectedBreedId: WritableSignal<number | null> = signal<number | null>(null);
+
+  public currentPage: WritableSignal<number> = signal<number>(0);
+  public itemsPerPage: WritableSignal<number> = signal<number>(this.PAGE_SIZE);
+  public isLoadingMore: WritableSignal<boolean> = signal<boolean>(false);
+  public hasMoreData: WritableSignal<boolean> = signal<boolean>(true); // Is there any more data to download?
+
+  @ViewChild('loadMoreSection') loadMoreSection?: ElementRef<HTMLElement>;
 
   constructor() {
     this.loadBreeds();
@@ -59,23 +76,72 @@ export class DogListComponent {
   private loadDogs(): void {
     this.isLoadingDogs.set(true);
     this.dogsError.set(null);
+    this.currentPage.set(0);
+    this.hasMoreData.set(true);
 
     const breedId = this.selectedBreedId();
 
     const request$ = breedId
-      ? this.dogService.searchByBreed(breedId, 21)
-      : this.dogService.getRandomDogs(21);
+      ? this.dogService.searchByBreed(breedId, this.itemsPerPage(), 0)
+      : this.dogService.getRandomDogs(this.itemsPerPage(), 0);
 
     request$.subscribe({
       next: (data) => {
         this.dogs.set(data);
         this.isLoadingDogs.set(false);
+
+        // If you received less than limit, there is no more data.
+        if (data.length < this.itemsPerPage()) {
+          this.hasMoreData.set(false);
+        }
       },
       error: (err) => {
         this.dogsError.set(err.message || 'Failed to load dogs');
         this.isLoadingDogs.set(false);
       },
     });
+  }
+
+  public onLoadMore(): void {
+    if (this.isLoadingMore() || !this.hasMoreData()) {
+      // Preventing double calling
+      return;
+    }
+
+    this.isLoadingMore.set(true);
+    const nextPage = this.currentPage() + 1;
+    const breedId = this.selectedBreedId();
+
+    const request$ = breedId
+      ? this.dogService.searchByBreed(breedId, this.itemsPerPage(), nextPage)
+      : this.dogService.getRandomDogs(this.itemsPerPage(), nextPage);
+
+    request$.subscribe({
+      next: (data) => {
+        this.dogs.update((currentDogs) => [...currentDogs, ...data]);
+        this.currentPage.set(nextPage);
+        this.isLoadingMore.set(false);
+
+        // If you received less than limit, there is no more data.
+        if (data.length < this.itemsPerPage()) {
+          this.hasMoreData.set(false);
+        }
+
+        this.scrollToNewContent();
+      },
+      error: (err) => {
+        console.error('Error loading more dogs:', err);
+        this.isLoadingMore.set(false);
+      },
+    });
+  }
+
+  private scrollToNewContent(): void {
+    setTimeout(() => {
+      if (this.loadMoreSection) {
+        this.loadMoreSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   }
 
   public onBreedChange(breedId: number | null): void {
