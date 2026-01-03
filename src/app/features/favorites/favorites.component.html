@@ -1,0 +1,34 @@
+<div class="favorites-container">
+  <header class="favorites-header">
+    <div class="header-content">
+      <h1 class="page-title">My Favorite Dogs</h1>
+
+      @if (!isEmpty()) {
+        <p class="page-subtitle">
+          You have {{ favoritesCount() }} favorite
+          {{ favoritesCount() === 1 ? 'dog' : 'dogs' }}
+        </p>
+      }
+    </div>
+
+    @if (!isEmpty()) {
+      <button class="clear-btn" (click)="onClearAll()">Clear All</button>
+    }
+  </header>
+
+  @if (isEmpty()) {
+    <div class="empty-state">
+      <div class="empty-icon">💔</div>
+      <h2>No favorites yet</h2>
+      <p>Start adding dogs to your favorites to see them here</p>
+      <a routerLink="/dogs" class="browse-btn"> Browse Dogs </a>
+    </div>
+
+  } @else {
+    <div class="favorites-grid">
+      @for (dog of favorites(); track dog.id) {
+        <app-dog-card [dog]="dog" />
+      }
+    </div>
+  }
+</div>

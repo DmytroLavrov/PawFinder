@@ -38,12 +38,15 @@
 }
 
 .nav-link {
+  position: relative;
   padding: $spacing-sm $spacing-md;
   border-radius: $radius-md;
   color: $text-secondary;
   font-weight: 500;
   transition: all $transition-base;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
 
   &:hover {
     color: $primary;
@@ -53,5 +56,32 @@
   &.active {
     color: $primary;
     background-color: rgba($primary, 0.1);
+  }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 $spacing-xs;
+  background-color: $error;
+  color: white;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  border-radius: $radius-full;
+  animation: badgePop 0.3s ease-out;
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
   }
 }

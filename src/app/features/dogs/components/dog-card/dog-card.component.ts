@@ -3,10 +3,13 @@ import {
   Component,
   computed,
   EventEmitter,
+  inject,
   Input,
   Output,
+  Signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { FavoritesService } from '@features/favorites/services/favorites.service';
 import { DogImage } from '@shared/models/dog.model';
 
 @Component({
@@ -18,6 +21,10 @@ import { DogImage } from '@shared/models/dog.model';
 })
 export class DogCardComponent {
   @Input({ required: true }) dog!: DogImage;
+
+  private favoriteService: FavoritesService = inject(FavoritesService);
+
+  public isFavorite: Signal<boolean> = computed(() => this.favoriteService.isFavorite(this.dog.id));
 
   @Output() public favoriteClick = new EventEmitter<DogImage>();
 
@@ -36,6 +43,7 @@ export class DogCardComponent {
   public onFavoriteClick(event: Event): void {
     event.preventDefault(); // To prevent routerLink from working
     event.stopPropagation();
-    this.favoriteClick.emit(this.dog);
+
+    this.favoriteService.toggleFavorite(this.dog);
   }
 }

@@ -23,6 +23,12 @@ export const routes: Routes = [
     title: 'Dog Details',
   },
   {
+    path: 'favorites',
+    loadComponent: () =>
+      import('./features/favorites/favorites.component').then((m) => m.FavoritesComponent),
+    title: 'My Favorites',
+  },
+  {
     path: '**',
     redirectTo: 'dogs',
   },
