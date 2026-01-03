@@ -22,7 +22,7 @@
   } @else if (dogs().length > 0) {
     <div class="dogs-grid">
       @for (dog of dogs(); track dog.id) {
-        <app-dog-card [dog]="dog" (favoriteClick)="onFavoriteClick($event)" />
+        <app-dog-card [dog]="dog" />
       }
     </div>
 

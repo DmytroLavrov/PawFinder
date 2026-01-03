@@ -92,11 +92,6 @@
   transition: all $transition-base;
   z-index: 10;
 
-  @include mobile {
-    top: $spacing-sm;
-    right: $spacing-sm;
-  }
-
   &:hover {
     background-color: white;
     transform: scale(1.1);
@@ -109,12 +104,32 @@
 
   .heart-icon {
     font-size: 1.25rem;
-    color: $error;
     transition: transform $transition-fast;
+  }
+
+  &.active {
+    background-color: rgba($error, 0.1);
+
+    .heart-icon {
+      animation: heartPulse 0.3s ease-in-out;
+    }
   }
 
   &:hover .heart-icon {
     animation: heartbeat 0.5s ease-in-out;
+  }
+}
+
+// Animation when adding to favorites
+@keyframes heartPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
   }
 }
 
