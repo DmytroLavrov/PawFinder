@@ -158,10 +158,6 @@ export class DogListComponent {
     this.loadDogs();
   }
 
-  public onFavoriteClick(dog: DogImage): void {
-    console.log('Added to favorites:', dog);
-  }
-
   public onRetry(): void {
     this.loadDogs();
   }

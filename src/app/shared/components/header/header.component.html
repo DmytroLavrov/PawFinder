@@ -1,16 +1,19 @@
 <header class="header">
   <div class="container">
     <nav class="nav">
-      <!-- Logo -->
-      <a routerLink="/" class="logo"> 🐕 PawFinder </a>
+      <a routerLink="/" class="logo"> 🐕 Dog Adoption </a>
 
-      <!-- Navigation links -->
       <ul class="nav-links">
         <li>
           <a routerLink="/dogs" routerLinkActive="active" class="nav-link"> Browse Dogs </a>
         </li>
         <li>
-          <a routerLink="/favorites" routerLinkActive="active" class="nav-link"> Favorites </a>
+          <a routerLink="/favorites" routerLinkActive="active" class="nav-link">
+            Favorites
+            @if (favoritesCount() > 0) {
+              <span class="badge">{{ favoritesCount() }}</span>
+            }
+          </a>
         </li>
       </ul>
     </nav>
