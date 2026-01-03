@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Signal } from '@angular/core';
-import { FavoritesService } from './services/favorites.service';
+import { FavoritesService } from '@core/services/favorites.service';
 import { DogCardComponent } from '@features/dog-list/components/dog-card/dog-card.component';
 import { DogImage } from '@shared/models/dog.model';
 

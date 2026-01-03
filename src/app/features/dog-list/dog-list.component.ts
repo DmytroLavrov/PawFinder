@@ -7,7 +7,7 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { DogService } from '@features/dog-list/services/dog.service';
+import { DogService } from '@core/services/dog.service';
 import { Breed, DogImage } from '@shared/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';

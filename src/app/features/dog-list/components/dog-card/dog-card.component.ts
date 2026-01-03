@@ -9,7 +9,7 @@ import {
   Signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FavoritesService } from '@features/favorites/services/favorites.service';
+import { FavoritesService } from '@core/services/favorites.service';
 import { DogImage } from '@shared/models/dog.model';
 
 @Component({
