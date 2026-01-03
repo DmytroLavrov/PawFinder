@@ -8,7 +8,7 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { Breed } from '@shared/models/dog.model';
+import { Breed } from '@core/models/dog.model';
 
 @Component({
   selector: 'app-breed-filter',

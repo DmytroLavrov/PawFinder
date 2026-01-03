@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FavoritesService } from '@core/services/favorites.service';
-import { DogImage } from '@shared/models/dog.model';
+import { DogImage } from '@core/models/dog.model';
 
 @Component({
   selector: 'app-dog-card',

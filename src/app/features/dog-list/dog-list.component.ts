@@ -8,7 +8,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { DogService } from '@core/services/dog.service';
-import { Breed, DogImage } from '@shared/models/dog.model';
+import { Breed, DogImage } from '@core/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
 import { DogCardComponent } from '@features/dog-list/components/dog-card/dog-card.component';

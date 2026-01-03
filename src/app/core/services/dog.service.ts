@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { Breed, DogImage } from '@shared/models/dog.model';
+import { Breed, DogImage } from '@core/models/dog.model';
 import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
