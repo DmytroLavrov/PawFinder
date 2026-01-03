@@ -8,7 +8,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { StorageService } from '@core/services/storage.service';
-import { DogImage } from '@shared/models/dog.model';
+import { DogImage } from '@core/models/dog.model';
 
 @Injectable({
   providedIn: 'root',

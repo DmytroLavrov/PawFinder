@@ -7,12 +7,12 @@ import {
   ViewChild,
   WritableSignal,
 } from '@angular/core';
-import { DogService } from '@features/dogs/services/dog.service';
-import { Breed, DogImage } from '@shared/models/dog.model';
+import { DogService } from '@core/services/dog.service';
+import { Breed, DogImage } from '@core/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
-import { DogCardComponent } from '../dog-card/dog-card.component';
-import { BreedFilterComponent } from '../breed-filter/breed-filter.component';
+import { DogCardComponent } from '@features/dog-list/components/dog-card/dog-card.component';
+import { BreedFilterComponent } from '@features/dog-list/components/breed-filter/breed-filter.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
