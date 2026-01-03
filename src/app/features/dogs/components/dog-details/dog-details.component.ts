@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
+  Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
@@ -11,6 +13,7 @@ import { DogService } from '@features/dogs/services/dog.service';
 import { DogImage } from '@shared/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
+import { FavoritesService } from '@features/favorites/services/favorites.service';
 
 @Component({
   selector: 'app-dog-details',
@@ -21,12 +24,18 @@ import { ErrorMessageComponent } from '@shared/components/error-message/error-me
 })
 export class DogDetailsComponent implements OnInit {
   private dogService: DogService = inject(DogService);
+  private favoritesService: FavoritesService = inject(FavoritesService);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private router: Router = inject(Router);
 
   public dog: WritableSignal<DogImage | null> = signal<DogImage | null>(null);
   public isLoading: WritableSignal<boolean> = signal<boolean>(true);
   public error: WritableSignal<string | null> = signal<string | null>(null);
+
+  protected isFavorite: Signal<boolean> = computed(() => {
+    const currentDog = this.dog();
+    return currentDog ? this.favoritesService.isFavorite(currentDog.id) : false;
+  });
 
   ngOnInit(): void {
     const dogId = this.route.snapshot.paramMap.get('id');
@@ -54,6 +63,13 @@ export class DogDetailsComponent implements OnInit {
         console.error('Error loading dog details:', err);
       },
     });
+  }
+
+  public onToggleFavorite(): void {
+    const currentDog = this.dog();
+    if (!currentDog) return;
+
+    this.favoritesService.toggleFavorite(currentDog);
   }
 
   public onRetry(): void {
