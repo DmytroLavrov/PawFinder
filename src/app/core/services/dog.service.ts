@@ -9,13 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class DogService {
   private readonly apiUrl: string = environment.dogApiUrl;
-  private readonly apiKey: string = environment.dogApiKey;
 
   private readonly http: HttpClient = inject(HttpClient);
-
-  private readonly headers = new HttpHeaders({
-    'x-api-key': this.apiKey,
-  });
 
   public getRandomDogs(
     limit: number = 10,
@@ -32,14 +27,11 @@ export class DogService {
 
     return this.http.get<DogImage[]>(`${this.apiUrl}/images/search`, {
       params,
-      headers: this.headers,
     });
   }
 
   public getBreeds(): Observable<Breed[]> {
-    return this.http.get<Breed[]>(`${this.apiUrl}/breeds`, {
-      headers: this.headers,
-    });
+    return this.http.get<Breed[]>(`${this.apiUrl}/breeds`);
   }
 
   public searchByBreed(
@@ -57,13 +49,10 @@ export class DogService {
 
     return this.http.get<DogImage[]>(`${this.apiUrl}/images/search`, {
       params,
-      headers: this.headers,
     });
   }
 
   public getDogById(imageId: string): Observable<DogImage> {
-    return this.http.get<DogImage>(`${this.apiUrl}/images/${imageId}`, {
-      headers: this.headers,
-    });
+    return this.http.get<DogImage>(`${this.apiUrl}/images/${imageId}`);
   }
 }
