@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { FavoritesService } from '@features/favorites/services/favorites.service';
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  private favoritesService: FavoritesService = inject(FavoritesService);
+
+  public favoritesCount: Signal<number> = this.favoritesService.favoritesCount;
+}

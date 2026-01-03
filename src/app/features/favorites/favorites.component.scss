@@ -57,7 +57,7 @@
   @include grid-auto-fit(280px, $spacing-lg);
 
   @include mobile {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
