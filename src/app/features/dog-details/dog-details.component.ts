@@ -9,11 +9,11 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DogService } from '@features/dogs/services/dog.service';
-import { DogImage } from '@shared/models/dog.model';
+import { DogService } from '@core/services/dog.service';
+import { DogImage } from '@core/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
-import { FavoritesService } from '@features/favorites/services/favorites.service';
+import { FavoritesService } from '@core/services/favorites.service';
 
 @Component({
   selector: 'app-dog-details',
