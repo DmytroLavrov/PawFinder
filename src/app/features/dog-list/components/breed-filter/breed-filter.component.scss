@@ -2,13 +2,9 @@
 @use 'styles/mixins' as *;
 
 .breed-filter {
-  width: 100%;
-  max-width: 300px;
-}
-
-.select-wrapper {
   position: relative;
   width: 100%;
+  max-width: 400px;
 }
 
 .filter-label {
@@ -19,6 +15,87 @@
   margin-bottom: $spacing-sm;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+.search-wrapper {
+  position: relative;
+  margin-bottom: $spacing-md;
+}
+
+.search-input {
+  width: 100%;
+  padding: $spacing-md $spacing-xl $spacing-md 3rem; // Place for the icon
+  font-size: $font-size-base;
+  font-family: $font-family;
+  color: $text-primary;
+  background-color: $bg-primary;
+  border: 2px solid $border;
+  border-radius: $radius-lg;
+  transition: all $transition-base;
+
+  &::placeholder {
+    color: $text-tertiary;
+  }
+
+  &:hover {
+    border-color: rgba($primary, 0.5);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+
+  &:disabled {
+    background-color: $bg-secondary;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.search-icon {
+  position: absolute;
+  left: $spacing-md;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: $font-size-lg;
+  color: $text-tertiary;
+  pointer-events: none;
+}
+
+.clear-btn {
+  @include button-reset;
+  position: absolute;
+  right: $spacing-sm;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  @include flex-center;
+  background-color: $bg-tertiary;
+  color: $text-secondary;
+  border-radius: $radius-full;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+  opacity: 0;
+  animation: fadeIn 0.2s forwards;
+
+  &:hover {
+    background-color: $error;
+    color: white;
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  &:active {
+    transform: translateY(-50%) scale(0.9);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .breed-select {
@@ -45,12 +122,10 @@
   }
 }
 
-// Custom dropdown icon
 .dropdown-icon {
   position: absolute;
   right: $spacing-md;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: $spacing-md;
   pointer-events: none;
   color: $text-tertiary;
   font-size: $font-size-sm;
@@ -58,18 +133,46 @@
 }
 
 .breed-select:focus ~ .dropdown-icon {
-  transform: translateY(-50%) rotate(180deg); // Rotates on focus
+  transform: rotate(180deg);
 }
 
-// Skeleton loader
+.no-results {
+  text-align: center;
+  padding: $spacing-xl;
+  background-color: rgba($warning, 0.1);
+  border: 2px dashed rgba($warning, 0.3);
+  border-radius: $radius-lg;
+
+  p {
+    color: $text-secondary;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.reset-btn {
+  @include button-reset;
+  padding: $spacing-sm $spacing-lg;
+  background-color: $primary;
+  color: white;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  transition: background-color $transition-base;
+
+  &:hover {
+    background-color: $primary-dark;
+  }
+}
+
 .skeleton-select {
   width: 100%;
-  height: 57px;
-  min-width: 240px;
+  height: 48px;
   background: linear-gradient(90deg, $bg-tertiary 25%, $bg-secondary 50%, $bg-tertiary 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s ease-in-out infinite;
   border-radius: $radius-lg;
+  margin-top: $spacing-md;
 }
 
 @keyframes skeleton-loading {
