@@ -1,26 +1,53 @@
 <div class="breed-filter">
-  <label for="breed-select" class="filter-label"> Filter by Breed </label>
+  <label for="breed-search" class="filter-label"> Search & Filter by Breed </label>
+
+  <div class="search-wrapper">
+    <input
+      id="breed-search"
+      type="text"
+      class="search-input"
+      placeholder="Search breeds..."
+      [value]="searchQuery()"
+      (input)="onSearchChange($event)"
+      [disabled]="isLoading"
+    />
+
+    <span class="search-icon">🔍</span>
+
+    @if (searchQuery()) {
+      <button class="clear-btn" (click)="onClearSearch()" type="button" aria-label="Clear search">
+        ✕
+      </button>
+    }
+  </div>
 
   @if (isLoading) {
     <div class="skeleton-select"></div>
-  } @else {
-    <div class="select-wrapper">
-      <select
-        id="breed-select"
-        class="breed-select"
-        [value]="selectedValue()"
-        (change)="onBreedChange($event)"
-      >
-        <option value="all">All Breeds {{ breeds.length }}</option>
 
-        @for (breed of breeds; track breed.id) {
-          <option [value]="breed.id" [selected]="selectedValue() === breed.id.toString()">
-            {{ breed.name }}
-          </option>
-        }
-      </select>
-
-      <span class="dropdown-icon">▼</span>
+  } @else if (noResults()) {
+    <div class="no-results">
+      <p>No breeds found matching "{{ searchQuery() }}"</p>
+      <button class="reset-btn" (click)="onClearSearch()">Clear search</button>
     </div>
+
+  } @else {
+    <select
+      id="breed-select"
+      class="breed-select"
+      [value]="selectedValue()"
+      (change)="onBreedChange($event)"
+    >
+      <option value="all">All Breeds ({{ filteredBreeds().length }})</option>
+
+      @for (breed of filteredBreeds(); track breed.id) {
+        <option [value]="breed.id">
+          {{ breed.name }}
+        </option>
+      }
+    </select>
+  }
+
+  @if (!isLoading && !noResults()) {
+    <span class="dropdown-icon">▼</span>
   }
 </div>
