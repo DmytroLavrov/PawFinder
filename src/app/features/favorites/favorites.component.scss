@@ -1,0 +1,102 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.favorites-container {
+  padding: $spacing-xl 0;
+}
+
+.favorites-header {
+  @include flex-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-2xl;
+  gap: $spacing-lg;
+
+  @include mobile {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.header-content {
+  flex: 1;
+}
+
+.page-title {
+  font-size: $font-size-3xl;
+  font-weight: 800;
+  color: $text-primary;
+  margin-bottom: $spacing-sm;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.page-subtitle {
+  font-size: $font-size-lg;
+  color: $text-secondary;
+}
+
+.clear-btn {
+  @include button-reset;
+  padding: $spacing-md $spacing-lg;
+  background-color: transparent;
+  color: $error;
+  border: 2px solid $error;
+  border-radius: $radius-lg;
+  font-weight: 600;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: $error;
+    color: white;
+  }
+}
+
+.favorites-grid {
+  @include grid-auto-fit(280px, $spacing-lg);
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: $spacing-2xl * 2;
+
+  .empty-icon {
+    font-size: 5rem;
+    margin-bottom: $spacing-xl;
+    opacity: 0.5;
+  }
+
+  h2 {
+    font-size: $font-size-2xl;
+    color: $text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.browse-btn {
+  @include button-reset;
+  display: inline-block;
+  padding: $spacing-md $spacing-xl;
+  background-color: $primary;
+  color: white;
+  border-radius: $radius-lg;
+  font-weight: 600;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: $primary-dark;
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
