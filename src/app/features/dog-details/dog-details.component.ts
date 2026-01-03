@@ -9,7 +9,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DogService } from '@features/dogs/services/dog.service';
+import { DogService } from '@features/dog-list/services/dog.service';
 import { DogImage } from '@shared/models/dog.model';
 import { LoaderComponent } from '@shared/components/loader/loader.component';
 import { ErrorMessageComponent } from '@shared/components/error-message/error-message.component';
