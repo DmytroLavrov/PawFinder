@@ -5,21 +5,24 @@ import {
   effect,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
   Signal,
   signal,
+  SimpleChanges,
   WritableSignal,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Breed } from '@core/models/dog.model';
 
 @Component({
   selector: 'app-breed-filter',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './breed-filter.component.html',
   styleUrl: './breed-filter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreedFilterComponent {
+export class BreedFilterComponent implements OnChanges {
   @Input({ required: true }) public breeds: Breed[] = [];
   @Input() public selectedBreedId: number | null = null;
   @Input() public isLoading: boolean = false;
@@ -27,7 +30,8 @@ export class BreedFilterComponent {
   @Output() public breedChange = new EventEmitter<number | null>();
 
   protected searchQuery: WritableSignal<string> = signal<string>('');
-  protected selectedValue: WritableSignal<string> = signal<string>('all');
+
+  protected selectedValue: string = 'all';
 
   protected filteredBreeds: Signal<Breed[]> = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
@@ -45,20 +49,34 @@ export class BreedFilterComponent {
 
   constructor() {
     effect(() => {
-      const breedId = this.selectedBreedId;
-      const value = breedId ? breedId.toString() : 'all';
+      const query = this.searchQuery();
 
-      this.selectedValue.set(value);
+      if (query.trim() !== '') {
+        this.selectedValue = 'all';
+      }
     });
   }
 
-  public onBreedChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    const value = target.value;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedBreedId']) {
+      const breedId = this.selectedBreedId;
+      const value = breedId ? breedId.toString() : 'all';
 
+      this.selectedValue = value;
+
+      if (breedId !== null) {
+        this.searchQuery.set('');
+      }
+    }
+  }
+
+  public onSelectChange(value: string): void {
     const breedId = value === 'all' ? null : parseInt(value, 10);
 
-    this.selectedValue.set(value);
+    if (breedId !== null) {
+      this.searchQuery.set('');
+    }
+
     this.breedChange.emit(breedId);
   }
 
