@@ -23,19 +23,17 @@
 
   @if (isLoading) {
     <div class="skeleton-select"></div>
-
   } @else if (noResults()) {
     <div class="no-results">
       <p>No breeds found matching "{{ searchQuery() }}"</p>
       <button class="reset-btn" (click)="onClearSearch()">Clear search</button>
     </div>
-
   } @else {
     <select
       id="breed-select"
       class="breed-select"
-      [value]="selectedValue()"
-      (change)="onBreedChange($event)"
+      [(ngModel)]="selectedValue"
+      (ngModelChange)="onSelectChange($event)"
     >
       <option value="all">All Breeds ({{ filteredBreeds().length }})</option>
 
