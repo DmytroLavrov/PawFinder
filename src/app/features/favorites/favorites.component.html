@@ -23,11 +23,10 @@
       <p>Start adding dogs to your favorites to see them here</p>
       <a routerLink="/dogs" class="browse-btn"> Browse Dogs </a>
     </div>
-
   } @else {
     <div class="favorites-grid">
       @for (dog of favorites(); track dog.id) {
-        <app-dog-card [dog]="dog" />
+        <app-dog-card [breed]="dog" />
       }
     </div>
   }

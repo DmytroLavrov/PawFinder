@@ -1,7 +1,6 @@
 <div class="dog-list-container">
   <header class="list-header">
     <h1 class="page-title">Find Your Perfect Companion</h1>
-    <p class="page-subtitle">Browse through our collection or search for your favorite breed</p>
   </header>
 
   <div class="filters-section">
@@ -12,10 +11,10 @@
     <app-loader />
   } @else if (error()) {
     <app-error-message [message]="error()!" (retry)="onRetry()" />
-  } @else if (breeds().length > 0) {
+  } @else if (dogs().length > 0) {
     <div class="dogs-grid">
-      @for (breed of breeds(); track breed.id) {
-        <app-dog-card [breed]="breed" />
+      @for (dog of dogs(); track dog.id) {
+        <app-dog-card [dog]="dog" />
       }
     </div>
 
@@ -27,18 +26,16 @@
             <span>Loading more...</span>
           </div>
         } @else if (hasMoreData()) {
-          <button class="load-more-btn" (click)="onLoadMore()">Load More Breeds</button>
-        } @else {
-          <p class="end-message">🐾 You've seen all available breeds!</p>
+          <button class="load-more-btn" (click)="onLoadMore()">Load More Dogs</button>
         }
       </div>
     }
   } @else {
     <div class="empty-state">
       <div class="empty-icon">🐕</div>
-      <h3>No breeds found</h3>
-      <p>Try searching for a different breed name</p>
-      <button class="retry-btn" (click)="onSearchChange('')">Show All Breeds</button>
+      <h3>No dogs found</h3>
+      <p>Try searching for a different breed (e.g. "Akita")</p>
+      <button class="retry-btn" (click)="onSearchChange('')">Clear Search</button>
     </div>
   }
 </div>

@@ -1,58 +1,83 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@env/environment';
-import { Breed, DogImage } from '@core/models/dog.model';
-import { Observable } from 'rxjs';
+import { Breed } from '@core/models/dog.model';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DogService {
   private readonly apiUrl: string = environment.dogApiUrl;
-
   private readonly http: HttpClient = inject(HttpClient);
 
-  public getRandomDogs(
-    limit: number = 10,
-    page: number = 0,
-    hasBreeds: boolean = true,
-  ): Observable<DogImage[]> {
+  private readonly CDN_URL = 'https://cdn2.thedogapi.com/images';
+
+  public getBreeds(limit: number = 10, page: number = 0): Observable<Breed[]> {
     const params = new HttpParams({
       fromObject: {
         limit,
         page,
-        ...(hasBreeds && { has_breeds: 1 }),
       },
     });
 
-    return this.http.get<DogImage[]>(`${this.apiUrl}/images/search`, {
-      params,
-    });
+    return this.http.get<any[]>(`${this.apiUrl}/breeds`, { params }).pipe(
+      map((breeds) =>
+        breeds
+          .filter((breed) => breed.reference_image_id || breed.image?.id)
+          .map((breed) => {
+            const imageId = breed.reference_image_id || breed.image?.id;
+            const imageUrl = breed.image?.url || `${this.CDN_URL}/${imageId}.jpg`;
+
+            return {
+              ...breed,
+              image: {
+                id: imageId,
+                url: imageUrl,
+              },
+            } as Breed;
+          }),
+      ),
+    );
   }
 
-  public getBreeds(): Observable<Breed[]> {
-    return this.http.get<Breed[]>(`${this.apiUrl}/breeds`);
+  public searchBreedsByName(query: string): Observable<Breed[]> {
+    const params = new HttpParams().set('q', query);
+
+    return this.http.get<any[]>(`${this.apiUrl}/breeds/search`, { params }).pipe(
+      map((breeds) =>
+        breeds
+          .filter((breed) => breed.reference_image_id || breed.image?.id)
+          .map((breed) => {
+            const imageId = breed.reference_image_id || breed.image?.id;
+            const imageUrl = breed.image?.url || `${this.CDN_URL}/${imageId}.jpg`;
+
+            return {
+              ...breed,
+              image: {
+                id: imageId,
+                url: imageUrl,
+              },
+            } as Breed;
+          }),
+      ),
+    );
   }
 
-  public searchByBreed(
-    breedId: number,
-    limit: number = 10,
-    page: number = 0,
-  ): Observable<DogImage[]> {
-    const params = new HttpParams({
-      fromObject: {
-        limit,
-        page,
-        breed_ids: breedId,
-      },
-    });
+  public getBreedById(id: number | string): Observable<Breed> {
+    return this.http.get<any>(`${this.apiUrl}/breeds/${id}`).pipe(
+      map((breed) => {
+        const imageId = breed.reference_image_id || breed.image?.id;
+        const imageUrl = breed.image?.url || `${this.CDN_URL}/${imageId}.jpg`;
 
-    return this.http.get<DogImage[]>(`${this.apiUrl}/images/search`, {
-      params,
-    });
-  }
-
-  public getDogById(imageId: string): Observable<DogImage> {
-    return this.http.get<DogImage>(`${this.apiUrl}/images/${imageId}`);
+        return {
+          ...breed,
+          image: {
+            id: imageId,
+            url: imageUrl,
+          },
+        } as Breed;
+      }),
+    );
   }
 }

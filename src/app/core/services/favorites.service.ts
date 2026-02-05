@@ -8,7 +8,7 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { StorageService } from '@core/services/storage.service';
-import { DogImage } from '@core/models/dog.model';
+import { Breed } from '@core/models/dog.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,17 +18,15 @@ export class FavoritesService {
 
   private storageService: StorageService = inject(StorageService);
 
-  private favoritesSignal: WritableSignal<DogImage[]> = signal<DogImage[]>([]);
+  private favoritesSignal: WritableSignal<Breed[]> = signal<Breed[]>([]);
 
   public favorites = this.favoritesSignal.asReadonly();
 
   public favoritesCount: Signal<number> = computed(() => this.favoritesSignal().length);
 
   constructor() {
-    // Load from localStorage at startup
     this.loadFromStorage();
 
-    // Automatically save with any change
     effect(() => {
       const favorites = this.favoritesSignal();
       this.saveToStorage(favorites);
@@ -36,27 +34,25 @@ export class FavoritesService {
   }
 
   public isFavorite(dogId: string): boolean {
-    return this.favoritesSignal().some((dog) => dog.id === dogId);
+    return this.favoritesSignal().some((dog) => dog.id.toString() === dogId);
   }
 
-  public addFavorite(dog: DogImage): void {
-    if (this.isFavorite(dog.id)) {
-      console.warn('Dog already in favorites');
+  public addFavorite(dog: Breed): void {
+    if (this.isFavorite(dog.id.toString())) {
       return;
     }
-
     this.favoritesSignal.update((currentFavorites) => [dog, ...currentFavorites]);
   }
 
   public removeFromFavorites(dogId: string): void {
     this.favoritesSignal.update((currentFavorites) =>
-      currentFavorites.filter((dog) => dog.id !== dogId),
+      currentFavorites.filter((dog) => dog.id.toString() !== dogId),
     );
   }
 
-  public toggleFavorite(dog: DogImage): void {
-    if (this.isFavorite(dog.id)) {
-      this.removeFromFavorites(dog.id);
+  public toggleFavorite(dog: Breed): void {
+    if (this.isFavorite(dog.id.toString())) {
+      this.removeFromFavorites(dog.id.toString());
     } else {
       this.addFavorite(dog);
     }
@@ -68,22 +64,16 @@ export class FavoritesService {
 
   private loadFromStorage(): void {
     try {
-      const storedFavorites = this.storageService.getItem<DogImage[]>(this.STORAGE_KEY);
-
+      const storedFavorites = this.storageService.getItem<Breed[]>(this.STORAGE_KEY);
       if (storedFavorites) {
         this.favoritesSignal.set(storedFavorites);
       }
     } catch (error) {
-      // If there is a parsing error, we clear it.
-      this.storageService.removeItem(this.STORAGE_KEY);
+      console.error('Error loading favorites', error);
     }
   }
 
-  private saveToStorage(favorites: DogImage[]): void {
-    try {
-      this.storageService.setItem(this.STORAGE_KEY, favorites);
-    } catch (error) {
-      console.error('Failed to save favorites to storage:', error);
-    }
+  private saveToStorage(favorites: Breed[]): void {
+    this.storageService.setItem(this.STORAGE_KEY, favorites);
   }
 }

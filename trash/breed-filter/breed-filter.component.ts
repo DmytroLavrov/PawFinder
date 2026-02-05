@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  model,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,6 +16,8 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreedFilterComponent {
+  // Використовуємо model() для двостороннього зв'язку або просто Input/Output
+  // Для простоти залишимо Input/Output патерн, як було, але змінимо типи
   @Input() public searchQuery: () => string = () => '';
   @Output() public searchChange = new EventEmitter<string>();
 

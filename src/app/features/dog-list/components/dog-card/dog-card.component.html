@@ -1,20 +1,20 @@
 <article class="dog-card">
-  <a [routerLink]="['/dogs', dog.id]" class="card-link">
+  <a [routerLink]="['/dogs', breed.id]" class="card-link">
     <div class="card-image">
-      <img [src]="dog.url" [alt]="breedName" loading="lazy" />
+      <img [src]="breed.image.url" [alt]="breed.name" loading="lazy" />
     </div>
 
     <div class="card-content">
-      <h3 class="card-title">{{ breedName }}</h3>
+      <h3 class="card-title">{{ breed.name }}</h3>
 
       <p class="card-temperament">
-        {{ temperament }}
+        {{ breed.temperament || 'Friendly' }}
       </p>
 
-      @if (lifeSpan) {
+      @if (breed.life_span) {
         <p class="card-info">
           <span class="icon">🕐</span>
-          {{ lifeSpan }}
+          {{ breed.life_span }}
         </p>
       }
     </div>

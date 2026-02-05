@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FavoritesService } from '@core/services/favorites.service';
-import { DogImage } from '@core/models/dog.model';
+import { Breed } from '@core/models/dog.model';
 
 @Component({
   selector: 'app-dog-card',
@@ -20,30 +20,20 @@ import { DogImage } from '@core/models/dog.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DogCardComponent {
-  @Input({ required: true }) dog!: DogImage;
+  @Input({ required: true }) breed!: Breed;
 
   private favoriteService: FavoritesService = inject(FavoritesService);
 
-  public isFavorite: Signal<boolean> = computed(() => this.favoriteService.isFavorite(this.dog.id));
+  public isFavorite: Signal<boolean> = computed(() =>
+    this.favoriteService.isFavorite(this.breed.id.toString()),
+  );
 
-  @Output() public favoriteClick = new EventEmitter<DogImage>();
-
-  protected get breedName(): string {
-    return this.dog.breeds?.[0]?.name || 'Mixed Breed';
-  }
-
-  protected get temperament(): string {
-    return this.dog.breeds?.[0]?.temperament || 'Friendly';
-  }
-
-  protected get lifeSpan(): string {
-    return this.dog.breeds?.[0]?.life_span || '';
-  }
+  @Output() public favoriteClick = new EventEmitter<Breed>();
 
   public onFavoriteClick(event: Event): void {
-    event.preventDefault(); // To prevent routerLink from working
+    event.preventDefault();
     event.stopPropagation();
-
-    this.favoriteService.toggleFavorite(this.dog);
+    this.favoriteService.toggleFavorite(this.breed);
+    this.favoriteClick.emit(this.breed);
   }
 }

@@ -66,14 +66,10 @@
 }
 
 .dogs-grid {
-  @include grid-auto-fit(280px, $spacing-lg);
+  @include grid-auto-fill(240px, $spacing-lg);
 
   @include mobile {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  @include tablet {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }
 
